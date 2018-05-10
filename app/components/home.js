@@ -1,20 +1,28 @@
 
 import React, {Component} from 'react';
 
-var App = React.createClass({
-  getItems: function() {
+export default class App extends Component {
+//const App = React.createClass({
+  getItems() {
     // some request here
     return [{id: 1, name: "Book", price: 12.49},
             {id: 2, name: "Table", price: 33.29},
             {id: 3, name: "Bookmark", price: 0.49}];
-  },
-  getInitialState: function() {
-    return {
-      items: this.getItems(),
-      cart: []
-    }
-  },
-  addToCart: function(item) {
+  }
+  // getInitialState() {
+  //   return {
+  //     items: this.getItems(),
+  //     cart: []
+  //   }
+  // }
+  constructor(props) {
+      super(props);
+      this.state = {
+        items: this.getItems(),
+        cart: []
+      };
+  }
+  addToCart(item) {
     var found = false;
     var updatedCart = this.state.cart.map((cartItem) => {
       if (cartItem.name == item.name) {
@@ -31,8 +39,8 @@ var App = React.createClass({
     this.setState({
       cart: updatedCart
     });
-  },
-  render: function(){
+  }
+  render(){
     return (
       <div>
         <nav>
@@ -47,20 +55,27 @@ var App = React.createClass({
       </div>
     );
   }
-});
+};
 
-var Cart = React.createClass({
-  getInitialState: function() {
-    return {
-      open: false
-    }
-  },
-  openCart: function() {
+class Cart extends Component {
+// const Cart = React.createClass({
+  // getInitialState() {
+  //   return {
+  //     open: false
+  //   }
+  // }
+  constructor(props) {
+      super(props);
+      this.state = {
+        open: false
+      };
+  }
+  openCart() {
     this.setState({
       open: !this.state.open
     })
-  },
-  render: function() {
+  }
+  render() {
     return (
       <div className={"Cart " + (this.state.open ? "Cart-Open" : "")} onClick={this.openCart} >
         <p className="Title">Cart</p>
@@ -71,13 +86,14 @@ var Cart = React.createClass({
       </div>
     );
   }
-});
+};
 
-var Product = React.createClass({
-  addToCart: function() {
+class Product extends Component {
+//const Product = React.createClass({
+  addToCart() {
     this.props.addToCart(this.props.details);
-  },
-  render: function() {
+  }
+  render() {
     let item = this.props.details;
     return (
       <div className="Product" onClick={this.addToCart}>
@@ -86,6 +102,5 @@ var Product = React.createClass({
       </div>
     );
   }
-});
+};
 
-ReactDOM.render(<App />, document.getElementById('app'));
